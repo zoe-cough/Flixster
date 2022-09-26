@@ -11,6 +11,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+
+//import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+
+//import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 const val MOVIE_EXTRA = "MOVIE_EXTRA"
 private const val TAG = "MovieAdapter"
@@ -30,12 +35,14 @@ class MovieAdapter(private val context: Context, private val movies: List<Movie>
         fun bind(movie: Movie) {
             tvTitle.text = movie.title
             tvOverview.text = movie.overview
-            val image: String
+            val radius = 30
             val orientation = context.resources.configuration.orientation
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Glide.with(context).load(movie.posterImageUrl).into(ivPoster)
+                Glide.with(context).load(movie.posterImageUrl).centerCrop().transform(RoundedCorners(radius)).into(ivPoster)
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Glide.with(context).load(movie.backdropImageUrl).into(ivPoster)
+                ivPoster.getLayoutParams().height = 180
+                ivPoster.getLayoutParams().width = 320
+                Glide.with(context).load(movie.backdropImageUrl).centerCrop().transform(RoundedCorners(radius)).into(ivPoster)
             }
 
         }
